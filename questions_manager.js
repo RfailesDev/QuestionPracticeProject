@@ -1,7 +1,7 @@
 $(document).ready(function () {
     // Загрузка JSON-файла
-    $.get('https://gist.githubusercontent.com/RfailesDev/0cec1fc2dde09be5213dabe5a6415501/raw', function (data) {
-        // Преобразование полученных данных в объект JavaScript
+    $.getJSON('https://gist.githubusercontent.com/RfailesDev/0cec1fc2dde09be5213dabe5a6415501/raw', function (data) {
+        // Перебираем элементы JSON
         $.each(data, function (index, item) {
             createQuestionContainer(item.question, item.answer);
         });
