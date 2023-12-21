@@ -1,14 +1,12 @@
 $(document).ready(function () {
     // Загрузка JSON-файла (замените 'data.json' на путь к вашему файлу)
-    $.getJSON('data.json', function (data) {
+    $.getJSON('https://gist.githubusercontent.com/RfailesDev/0cec1fc2dde09be5213dabe5a6415501/raw', function (data) {
         // Перебираем элементы JSON
         $.each(data, function (index, item) {
             createQuestionContainer(item.question, item.answer);
         });
     });
-
     const $scrolling_frame = $('.scrolling-frame')
-
     // Функция для создания контейера с вопросом и ответом
     function createQuestionContainer(question, answer) {
         var containerHtml = `
@@ -32,22 +30,17 @@ $(document).ready(function () {
                 </div>
             </div>
         `;
-
         $scrolling_frame.append(containerHtml);
     }
-
     var scrollingFrame = $('.scrolling-frame');
     var isAnimating = false;
     var currentAnimation = null;
-
     var container = $(this).closest('.question-container');
     var searchTxt = $('.search-txt');
-
     // Обработчик события для поля ввода поиска
     $('#search-bar-input').on('input', function () {
         var searchText = $(this).val().toLowerCase();
         scrollingFrame.stop(); // Остановить текущую анимацию прокрутки
-
         if (searchText === '') {
             searchTxt.css('opacity', '1');
             // Если поле поиска пусто, убираем выделение и сбрасываем анимацию
@@ -56,7 +49,6 @@ $(document).ready(function () {
             if (currentAnimation) {
                 currentAnimation.stop();
             }
-
         } else {
             searchTxt.css('opacity', '0');
             // Если есть текст в поле поиска
@@ -71,7 +63,6 @@ $(document).ready(function () {
                     $(this).find('.question').removeClass('highlight');
                 }
             });
-
             // Прокрутка к первому найденному элементу с использованием smooth scroll
             var firstMatch = $('.container.question-container .question.highlight').first();
             if (firstMatch.length > 0) {
@@ -88,13 +79,11 @@ $(document).ready(function () {
             }
         }
     });
-
     // Обработчик события для кнопки "X", чтобы стереть поиск
     $('#clear-search').on('click', function () {
         $('#search-bar-input').val('');
         $('#search-bar-input').trigger('input'); // Имитируем событие input для очистки выделений
     });
-
     const $MoveUpButton = $('#move-up-button')
     // Обработчик события для кнопки "Move Up"
     $MoveUpButton.on('click', function () {
@@ -108,7 +97,6 @@ $(document).ready(function () {
             });
         }
     });
-
     $scrolling_frame.on('scroll', function() {
         if ($scrolling_frame.scrollTop() >= 200) {
             $MoveUpButton.addClass('active');
