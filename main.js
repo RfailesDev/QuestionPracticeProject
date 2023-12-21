@@ -1,11 +1,11 @@
 // Основной JavaScript для обычного режима
 $(document).ready(function () {
-    $('#gotoQuestions').click(function () {
-        window.location.href = "questions.html";
+    $('#gotoQuestions_kp').click(function () {
+        window.location.href = "questions_kp";
     });
 
-    $('#adminButton').click(function () {
-        // Реализуйте переход к режиму администратора
+    $('#gotoQuestions_history').click(function () {
+        window.location.href = "questions_history";
     });
 });
 

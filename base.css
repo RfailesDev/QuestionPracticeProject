@@ -20,6 +20,11 @@ button {
     font-size: 20px;
 }
 
+#gotoQuestions_history {
+    background: linear-gradient(110deg, rgba(216,223,255,1) 0%, rgb(87, 61, 50) 0%, rgb(124, 79, 58) 100%);
+
+}
+
 .screen {
     display: flex;
     position: absolute;

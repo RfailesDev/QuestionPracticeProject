@@ -12,3 +12,8 @@ button {
     padding-top: 15px;
     padding-bottom: 15px;
 }
+
+.title__ {
+    display: flex;
+    justify-content: center;
+}

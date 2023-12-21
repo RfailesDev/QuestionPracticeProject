@@ -1,6 +1,6 @@
 $(document).ready(function () {
     // Загрузка JSON-файла (замените 'data.json' на путь к вашему файлу)
-    $.getJSON('data.json', function (data) {
+    $.getJSON('https://gist.githubusercontent.com/RfailesDev/046f6d91cac4e0c8f0fc25d7cc554808/raw', function (data) {
         // Перебираем элементы JSON
         $.each(data, function (index, item) {
             createQuestionContainer(item.question, item.answer);
