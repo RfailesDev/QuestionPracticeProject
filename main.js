@@ -7,6 +7,10 @@ $(document).ready(function () {
     $('#gotoQuestions_history').click(function () {
         window.location.href = "questions_history";
     });
+
+    $('#gotoQuestions_tgp').click(function () {
+        window.location.href = "questions_tgp";
+    });
 });
 
 $(document).ready(function() {
