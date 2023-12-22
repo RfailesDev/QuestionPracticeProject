@@ -22,8 +22,11 @@ button {
 
 #gotoQuestions_history {
     background: linear-gradient(110deg, rgba(216,223,255,1) 0%, rgb(87, 61, 50) 0%, rgb(124, 79, 58) 100%);
-
 }
+#gotoQuestions_tgp {
+    background: linear-gradient(110deg, rgba(216,223,255,1) 0%, rgb(0, 128, 0) 0%, rgb(0, 128, 0) 100%);
+}
+
 
 .screen {
     display: flex;
