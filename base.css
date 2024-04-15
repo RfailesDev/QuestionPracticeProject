@@ -26,6 +26,10 @@ button {
 #gotoQuestions_tgp {
     background: linear-gradient(110deg, rgba(216,223,255,1) 0%, rgb(0, 128, 0) 0%, rgb(0, 128, 0) 100%);
 }
+#gotoQuestions_oep {
+    background: linear-gradient(110deg, rgba(216,223,255,1) 0%, rgb(77, 77, 77) 0%, rgb(45, 45, 45) 100%);
+}
+
 
 
 .screen {

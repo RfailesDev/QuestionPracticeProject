@@ -11,6 +11,10 @@ $(document).ready(function () {
     $('#gotoQuestions_tgp').click(function () {
         window.location.href = "questions_tgp";
     });
+
+    $('#gotoQuestions_oep').click(function () {
+        window.location.href = "questions_oep";
+    });
 });
 
 $(document).ready(function() {
