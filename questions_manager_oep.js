@@ -15,7 +15,6 @@ $(document).ready(function () {
         var containerHtml = `
             <div class="container question-container">
                 <div class="txt question-num">${$('.container.question-container').length + 1}</div>
-                <div class="txt question question-tile">${question.split('|')[0]}</div>
         `;
 
         const questionText = question;
