@@ -18,7 +18,7 @@ $(document).ready(function () {
                 <div class="txt question question-tile">${question.split('|')[0]}</div>
         `;
 
-        const questionText = question.split('|')[1];
+        const questionText = question;
         const questionElements = questionText.split(';');
 
         for (const questionElement of questionElements) {
