@@ -29,6 +29,9 @@ button {
 #gotoQuestions_oep {
     background: linear-gradient(110deg, rgba(216,223,255,1) 0%, rgb(77, 77, 77) 0%, rgb(45, 45, 45) 100%);
 }
+#gotoQuestions_dou {
+    background: linear-gradient(110deg, rgba(216,223,255,1) 0%, rgb(77, 77, 77) 0%, rgb(88, 88, 88) 100%);
+}
 
 
 

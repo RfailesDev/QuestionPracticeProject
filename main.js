@@ -15,6 +15,10 @@ $(document).ready(function () {
     $('#gotoQuestions_oep').click(function () {
         window.location.href = "questions_oep";
     });
+
+    $('#gotoQuestions_dou').click(function () {
+        window.location.href = "questions_dou";
+    });
 });
 
 $(document).ready(function() {
