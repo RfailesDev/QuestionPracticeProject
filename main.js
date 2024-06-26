@@ -19,6 +19,10 @@ $(document).ready(function () {
     $('#gotoQuestions_dou').click(function () {
         window.location.href = "questions_dou";
     });
+
+    $('#gotoQuestions_mdk').click(function () {
+        window.location.href = "questions_mdk";
+    });
 });
 
 $(document).ready(function() {
