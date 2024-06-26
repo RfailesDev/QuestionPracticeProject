@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto+Condensed:ital@1&family=Roboto:wght@400;500;700&family=Source+Code+Pro:ital@1&display=swap" rel="stylesheet">
+    <title>Вопрос-ответ</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .container {
+            display: flex;
+            background-color: white;
+            /* border: 1px solid #0000002e; */
+            border-radius: 15px;
+            flex-direction: column;
+            padding: 30px;
+            gap: 10px;
+        }
+
+        button {
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: black;
+            font-weight: 500;
+            overflow: hidden;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        button {
+            padding: 5px 10px;
+            border-radius: 100px;
+            /* background: linear-gradient(110deg, rgba(216,223,255,1) 0%, rgba(0,104,255,1) 0%, rgb(0, 87, 201) 100%); */
+            background-color: black;
+            font-family: 'Roboto', sans-serif;
+            color: #ffffff;
+            font-weight: 700;
+            border: none;
+            font-size: 20px;
+        }
+
+        .screen {
+            display: flex;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(110deg, rgb(94 123 255) 0%, rgb(159 166 210) 0%, rgb(195 195 195) 100%);
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .scrolling-frame {
+            overflow-y: auto;
+            display: flex;
+            gap: 0;
+            flex-direction: column;
+            height: 100%;
+            margin-top: 5px;
+            position: relative;
+        }
+
+        .top-bar {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            padding: 10px;
+            background-color: white;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        .search-input-base {
+            display: flex;
+            gap: 10px;
+            background-color: white;
+            /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); */
+            width: 50%;
+            flex-direction: row;
+            border-radius: 1000px;
+            border: 2px solid rgba(0, 0, 0, 0.33);
+            padding: 5px 13px;
+            font-size: 15px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        .clear-search-button {
+            font-size: 20px;
+            font-weight: 500;
+            border-radius: 100%;
+            background: none;
+            background-color: rgba(0, 0, 0, 0.09);
+            color: #00000063;
+            height: 30px;
+            width: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            right: 0;
+        }
+        .search-input {
+            display: flex;
+            width: 90%;
+            flex-direction: row;
+            font-size: 15px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+            border: none;
+            outline: none;
+        }
+        .search-button {
+            display: flex;
+            gap: 10px;
+            /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); */
+            width: 100px;
+            flex-direction: row;
+            border-radius: 1000px;
+            border: none;
+            padding: 8px 60px;
+            font-size: 15px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+            align-items: center;
+            justify-content: center;
+            /* height: 100%; */
+        }
+
+        .move-up-button {
+            background: none;
+            background-color: rgb(0 61 255 / 65%);
+            color: #0026ff;
+            border-radius: 100%;
+            position: absolute;
+            right: -50px;
+            top: 80px;
+            z-index: 10;
+            padding: 0;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(1.5px);
+            transition: right 0.1s ease;
+            cursor: pointer;
+        }
+        .move-up-button.active {
+            right: 10px;
+        }
+
+        .arrow {
+            border: solid #ffffff;
+            border-width: 0 3px 3px 0;
+            display: inline-block;
+            padding: 4px;
+        }
+        .up {
+            transform: rotate(-135deg);
+            -webkit-transform: rotate(-135deg);
+        }
+
+        .txt-column {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: flex-start;
+            opacity: 0;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+            position: relative;
+            justify-content: center;
+        }
+        .hidden-txt {
+            font-size: 6px;
+            font-weight: 500;
+            color: rgba(0, 0, 0, 0.58);
+            font-family: 'Roboto Condensed', sans-serif;
+            display: inline-block;
+        }
+
+        .question-container {
+            gap: 2px;
+            padding: 15px;
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-top: 10px;
+            display: flex;
+            align-items: flex-start;
+            position: relative;
+        }
+        .question-tile {
+            margin-bottom: 5px;
+            color: rgba(0, 0, 0, 0.69);
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            font-weight: 900;
+        }
+
+        .question-container.expanded .answer-container {
+            background: transparent;
+        }
+
+        .question-part2 {
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .deco-line {
+            height: 2px;
+            width: 80%;
+            background-color: rgba(0, 0, 0, 0.16);
+        }
+
+        .question-num {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(0, 0, 0, 0.31);
+            font-weight: 500;
+            font-size: 15px;
+            position: absolute;
+            right: 20px;
+            bottom: 15px;
+            border-radius: 100%;
+            height: 30px;
+            width: 30px;
+            background-color: rgba(0, 0, 0, 0.06);
+        }
+
+        .answer {
+            color: rgba(0, 0, 0, 0.69);
+            font-weight: 500;
+            margin-left: 15px;
+            margin-right: 0;
+        }
+
+        .answer-container {
+            display: flex;
+            gap: 5px;
+            position: relative;
+            background: linear-gradient(90deg, rgba(216,223,255,1) 0%, rgba(87,155,255,0.2665441176470589) 0%, rgba(87,155,255,0) 67%);
+            transition: all 1s ease;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+        .showed {
+            background: linear-gradient(90deg, rgba(216,223,255,1) 0%, rgba(87,155,255,0.2665441176470589) 0%, rgba(87,155,255,0) 22%);
+        }
+
+        .vert-line {
+            height: 100%;
+            width: 4px;
+            background-color: rgb(0, 102, 255);
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .showMoreButton-container {
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
+        }
+        .showMoreButton {
+            background-color: transparent;
+            background: none;
+            border: 2px solid #00000054;
+            color: rgba(0, 0, 0, 0.33);
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            transition: color 0.3s ease;
+            white-space: nowrap;
+        }
+        .showMoreButton.hide-answer-cls {
+            background-color: #ffe1e1;
+        }
+
+        .arrowIcon {
+            display: flex;
+            width: 10px;
+            height: 10px;
+            transform: rotate(0deg);
+            transition: transform 0.3s ease;
+            justify-content: center;
+            align-items: center;
+        }
+        .rotate {
+            transform: rotate(-90deg);
+        }
+
+        .highlight {
+            background-color: rgba(255, 255, 0, 0.22);
+        }
+
+        .search-txt {
+            position: absolute;
+            color: rgba(0, 0, 0, 0.44);
+            opacity: 1;
+            margin-left: 2px;
+        }
+
+        strong {
+            color: black;
+        }
+
+        @media screen and (max-width: 350px) {
+            .hidden-txt {
+                font-size: 5px;
+            }
+        }
+        @media screen and (max-width: 330px) {
+            .hidden-txt {
+                font-size: 4px;
+            }
+        }
+        @media screen and (max-width: 310px) {
+            .hidden-txt {
+                font-size: 3px;
+            }
+        }
+        @media screen and (max-width: 290px) {
+            .hidden-txt {
+                font-size: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="screen">
+        <div class="top-bar">
+            <div class="search-input-base">
+                <input class="search-input" id="search-bar-input">
+                <button class="clear-search-button" id="clear-search">X</button>
+                <div class="txt search-txt">...</div>
+            </div>
+            <button class="search-button" id="search-button">SEARCH</button>
+        </div>
+
+        <button class="move-up-button" id="move-up-button">
+            <div class="arrow up"></div>
+        </button>
+        <div class="scrolling-frame" id="scrolling-frame">
+            </div>
+    </div>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_GA_ID"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+$(document).ready(function () {
+            $.getJSON('https://gist.githubusercontent.com/RfailesDev/7e14d61e88ca9f25468c2ae68278ac89/raw', function (data) {
+                $.each(data, function (index, item) {
+                    createQuestionContainer(item.question, item.answer);
+                });
+            });
+
+            const $scrollingFrame = $('.scrolling-frame');
+
+            function createQuestionContainer(question, answer) {
+                const questionHtml = markdownToHtml(question); // Сначала преобразуем в HTML
+                const answerHtml = markdownToHtml(answer);
+
+                var containerHtml = `
+                    <div class="container question-container">
+                        <div class="txt question-num">${$('.container.question-container').length + 1}</div>
+                        <div class="question">${questionHtml}</div> <div class="question-part2">
+                            <div class="answer-container">
+                                <div class="vert-line"></div>
+                                <div class="txt answer">${answerHtml}</div>
+                            </div>
+                        </div>
+                        <div class="showMoreButton-container">
+                            <button class="showMoreButton">
+                                Показать ответ
+                            </button>
+                            <div class="txt-column">
+                                <div class="hidden-txt">Ответ может быть неверным или неполным.</div>
+                                <div class="hidden-txt">Ответ мог быть сгенерирован при помощи ИИ.</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                $scrollingFrame.append(containerHtml);
+            }
+
+            function markdownToHtml(markdownText) {
+                // Простая обработка Markdown
+                let htmlText = markdownText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Жирный
+                htmlText = htmlText.replace(/\*(.*?)\*/g, '<em>$1</em>'); // Курсив
+                htmlText = htmlText.replace(/\n/g, '<br>'); // Перенос строки
+                return htmlText;
+            }
+
+            var scrollingFrame = $('.scrolling-frame');
+            var isAnimating = false;
+            var currentAnimation = null;
+
+            var container = $(this).closest('.question-container');
+            var searchTxt = $('.search-txt');
+
+            $('#search-bar-input').on('input', function () {
+                var searchText = $(this).val().toLowerCase();
+                scrollingFrame.stop();
+
+                if (searchText === '') {
+                    searchTxt.css('opacity', '1');
+                    $('.container.question-container .question').removeClass('highlight');
+                    isAnimating = false;
+                    if (currentAnimation) {
+                        currentAnimation.stop();
+                    }
+                } else {
+                    searchTxt.css('opacity', '0');
+                    $('.container.question-container').each(function () {
+                        // Ищем совпадения в уже преобразованном HTML
+                        var questionText = $(this).find('.question').html().toLowerCase();
+                        var isMatch = questionText.includes(searchText);
+                        if (isMatch) {
+                            $(this).find('.question').addClass('highlight');
+                        } else {
+                            $(this).find('.question').removeClass('highlight');
+                        }
+                    });
+
+                    var firstMatch = $('.container.question-container .question.highlight').first();
+                    if (firstMatch.length > 0) {
+                        var targetOffset = firstMatch.offset().top - scrollingFrame.offset().top + scrollingFrame.scrollTop();
+                        if (isAnimating) {
+                            currentAnimation.stop();
+                        }
+                        isAnimating = true;
+                        currentAnimation = scrollingFrame.animate({
+                            scrollTop: targetOffset - 50
+                        }, 250, function () {
+                            isAnimating = false;
+                        });
+                    }
+                }
+            });
+
+            $('#clear-search').on('click', function () {
+                $('#search-bar-input').val('');
+                $('#search-bar-input').trigger('input');
+            });
+
+            const $MoveUpButton = $('#move-up-button')
+            $MoveUpButton.on('click', function () {
+                var currentScrollPosition = scrollingFrame.scrollTop();
+                if (currentScrollPosition > 0 && !isAnimating) {
+                    isAnimating = true;
+                    currentAnimation = scrollingFrame.animate({
+                        scrollTop: 0
+                    }, 300, function () {
+                        isAnimating = false;
+                    });
+                }
+            });
+
+            $scrollingFrame.on('scroll', function() {
+                if ($scrollingFrame.scrollTop() >= 200) {
+                    $MoveUpButton.addClass('active');
+                } else {
+                    $MoveUpButton.removeClass('active');
+                }
+            });
+
+
+            $scrollingFrame.on('click', '.showMoreButton', function() {
+                var container = $(this).closest('.question-container');
+                var button = container.find('.showMoreButton');
+                var questionPart2 = container.find('.question-part2');
+                var answerContainer = container.find('.answer-container');
+                var txtColumn = container.find('.txt-column');
+
+                if (questionPart2.hasClass('expanded')) {
+                    questionPart2.removeClass('expanded');
+                    if (button.hasClass('hide-answer-cls')) {
+                        button.removeClass('hide-answer-cls');
+                    }
+                    button.text('Показать ответ');
+                    questionPart2.css('max-height', '0');
+                    questionPart2.css('opacity', '0');
+
+                    txtColumn.css('opacity', '0');
+
+                    answerContainer.removeClass('showed');
+                } else {
+                    questionPart2.addClass('expanded');
+                    button.text('Скрыть ответ');
+                    button.addClass('hide-answer-cls');
+                    questionPart2.css('max-height', answerContainer.height() + 30 + 'px');
+                    questionPart2.css('opacity', '1');
+
+                    txtColumn.css('opacity', '1');
+
+                    answerContainer.addClass('showed');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
