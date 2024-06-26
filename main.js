@@ -23,6 +23,10 @@ $(document).ready(function () {
     $('#gotoQuestions_mdk').click(function () {
         window.location.href = "questions_mdk";
     });
+
+    $('#gotoQuestions_mdk2').click(function () {
+        window.location.href = "questions_mdk2";
+    });
 });
 
 $(document).ready(function() {
