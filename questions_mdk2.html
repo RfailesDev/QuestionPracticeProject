@@ -379,11 +379,18 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
 $(document).ready(function () {
-            $.getJSON('https://gist.githubusercontent.com/RfailesDev/2d2c515d083467eaa543eb27b5420b75/raw', function (data) {
-                console.log(data)
-                $.each(data, function (index, item) {
-                    createQuestionContainer(item.question, item.answer);
-                });
+            $.ajax({
+                url: 'https://gist.githubusercontent.com/RfailesDev/5f66df9bf213f4036c47438cabdc03ef/raw',
+                dataType: 'json',
+                success: function(data) {
+                    console.log(data);
+                    $.each(data, function(index, item) {
+                        createQuestionContainer(item.question, item.answer);
+                    });
+                },
+                error: function(error) {
+                    console.error("Ошибка загрузки JSON:", error);
+                }
             });
 
             const $scrollingFrame = $('.scrolling-frame');
